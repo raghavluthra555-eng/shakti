@@ -164,14 +164,14 @@ const ScrollExpandMedia = ({
 
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-screen relative'>
-              <div
+              <motion.div
                 className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl overflow-hidden'
                 style={{
                   width: `${mediaWidth}px`,
                   height: `${mediaHeight}px`,
                   maxWidth: '95vw',
                   maxHeight: '85vh',
-                  boxShadow: '0px 0px 50px rgba(255, 78, 205, 0.3)',
+                  boxShadow: `0px 0px ${30 + scrollProgress * 50}px rgba(255, 78, 205, ${0.3 + scrollProgress * 0.4})`,
                 }}
               >
                 {mediaType === 'iframe' ? (
@@ -221,6 +221,13 @@ const ScrollExpandMedia = ({
                   </div>
                 )}
 
+                <motion.div
+                  className='absolute inset-0 bg-gradient-to-t from-[#FF4ECD]/20 to-transparent rounded-xl pointer-events-none'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: scrollProgress * 0.3 }}
+                  transition={{ duration: 0.2 }}
+                />
+
                 <div className='flex flex-col items-center text-center relative z-10 mt-4 transition-none'>
                   {subtitle && (
                     <p
@@ -239,28 +246,41 @@ const ScrollExpandMedia = ({
                     </p>
                   )}
                 </div>
-              </div>
+              </motion.div>
 
               <div className='flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col mix-blend-normal'>
                 <motion.h2
                   className='text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#FF4ECD] to-[#7B5CFF] bg-clip-text text-transparent transition-none'
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  style={{
+                    transform: `translateX(-${textTranslateX}vw) scale(${1 + scrollProgress * 0.1})`,
+                    opacity: 1 - scrollProgress * 0.5
+                  }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
                   className='text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-[#7B5CFF] to-[#2DE2E6] bg-clip-text text-transparent transition-none'
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  style={{
+                    transform: `translateX(${textTranslateX}vw) scale(${1 + scrollProgress * 0.1})`,
+                    opacity: 1 - scrollProgress * 0.5
+                  }}
                 >
                   {restOfTitle}
                 </motion.h2>
               </div>
             </div>
 
+            <motion.div
+              className='absolute inset-0 pointer-events-none'
+              style={{
+                background: `radial-gradient(circle at center, transparent ${50 - scrollProgress * 20}%, rgba(7, 7, 15, ${scrollProgress}))`,
+              }}
+            />
+
             <motion.section
-              className='flex flex-col w-full px-8 py-10 md:px-16 lg:py-20'
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showContent ? 1 : 0 }}
+              className='flex flex-col w-full px-8 py-10 md:px-16 lg:py-20 bg-[#0D0D1A]'
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 50 }}
               transition={{ duration: 0.7 }}
             >
               {children}
