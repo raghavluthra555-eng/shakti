@@ -2,7 +2,7 @@ import { Sparkles, Target, TrendingUp } from 'lucide-react';
 
 export default function WhyGirls() {
   return (
-    <section className="relative py-24 px-6 bg-[#0D0D1A]">
+    <section className="relative py-0 px-0">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#FF4ECD] to-[#7B5CFF] bg-clip-text text-transparent">
