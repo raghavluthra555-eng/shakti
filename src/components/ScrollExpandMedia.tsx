@@ -159,7 +159,11 @@ const ScrollExpandMedia = ({
               alt='Background'
               className='w-screen h-screen object-cover object-center'
             />
-            <div className='absolute inset-0 bg-black/10' />
+            <motion.div
+              className='absolute inset-0 bg-black/10'
+              animate={{ opacity: 0.1 + scrollProgress * 0.3 }}
+              transition={{ duration: 0.2 }}
+            />
           </motion.div>
 
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
@@ -228,45 +232,67 @@ const ScrollExpandMedia = ({
                   transition={{ duration: 0.2 }}
                 />
 
-                <div className='flex flex-col items-center text-center relative z-10 mt-4 transition-none'>
+                <div className='flex flex-col items-center text-center relative z-20 mt-4 transition-none'>
                   {subtitle && (
-                    <p
-                      className='text-xl text-[#2DE2E6] font-medium'
-                      style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                    <motion.p
+                      className='text-lg md:text-xl text-[#2DE2E6] font-medium'
+                      style={{
+                        transform: `translateX(-${textTranslateX}vw)`,
+                        opacity: 1 - scrollProgress * 0.4
+                      }}
                     >
                       {subtitle}
-                    </p>
+                    </motion.p>
                   )}
                   {scrollToExpand && (
-                    <p
-                      className='text-[#2DE2E6] font-medium text-center'
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                    <motion.p
+                      className='text-sm md:text-base text-[#FF4ECD] font-semibold text-center mt-3'
+                      style={{
+                        transform: `translateX(${textTranslateX}vw) translateY(${scrollProgress * 20}px)`,
+                        opacity: Math.max(0, 1 - scrollProgress * 0.8)
+                      }}
+                      animate={{ y: [0, 8, 0] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
                     >
                       {scrollToExpand}
-                    </p>
+                    </motion.p>
                   )}
                 </div>
               </motion.div>
 
               <div className='flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col mix-blend-normal'>
-                <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#FF4ECD] to-[#7B5CFF] bg-clip-text text-transparent transition-none'
+                <motion.div
+                  className='relative'
                   style={{
-                    transform: `translateX(-${textTranslateX}vw) scale(${1 + scrollProgress * 0.1})`,
-                    opacity: 1 - scrollProgress * 0.5
+                    transform: `translateX(-${textTranslateX * 0.5}vw)`,
+                    opacity: 1 - scrollProgress * 0.4
                   }}
                 >
-                  {firstWord}
-                </motion.h2>
-                <motion.h2
-                  className='text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-[#7B5CFF] to-[#2DE2E6] bg-clip-text text-transparent transition-none'
+                  <motion.h2
+                    className='text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-[#FF4ECD] to-[#7B5CFF] bg-clip-text text-transparent transition-none'
+                    style={{
+                      transform: `scale(${1 + scrollProgress * 0.15})`,
+                    }}
+                  >
+                    {firstWord}
+                  </motion.h2>
+                </motion.div>
+                <motion.div
+                  className='relative'
                   style={{
-                    transform: `translateX(${textTranslateX}vw) scale(${1 + scrollProgress * 0.1})`,
-                    opacity: 1 - scrollProgress * 0.5
+                    transform: `translateX(${textTranslateX * 0.5}vw)`,
+                    opacity: 1 - scrollProgress * 0.4
                   }}
                 >
-                  {restOfTitle}
-                </motion.h2>
+                  <motion.h2
+                    className='text-4xl md:text-5xl lg:text-6xl font-bold text-center bg-gradient-to-r from-[#7B5CFF] to-[#2DE2E6] bg-clip-text text-transparent transition-none'
+                    style={{
+                      transform: `scale(${1 + scrollProgress * 0.15})`,
+                    }}
+                  >
+                    {restOfTitle}
+                  </motion.h2>
+                </motion.div>
               </div>
             </div>
 
